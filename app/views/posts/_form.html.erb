@@ -2,55 +2,52 @@
   <div class="form-group">
     <%= form_for @post do |f| %>
     <form>
-      <table class="table">
+      <table class="table table-borderless">
         <tr class="form-group">
-
-          <td>
-            <%= f.text_field :title %>
+          <td colspan="2">
+            <%= f.text_field :title , class:"form-control"%>
           </td>
         </tr>
-        <tr>
-          <td>
-            <%= f.text_area  :article%>
+        <tr class="form-group">
+          <td colspan="2">
+            <%= f.text_area :article ,class:"form-control"%>
           </td>
         </tr>
-        <tr>
-          <td >
+        <tr class="form-group">
+          <td colspan="2">
             <%= image_tag @post.photo if @post.photo?%>
             <%= f.file_field :avatar %>
-        </td>
-      </tr>
-
-      <tr>
-        <th scope="row">
-          Who Can See
-        </th>
-        <td>
-          <% @privacy.each do |privacy| %>
-          <%= radio_button_tag "privacy",privacy.name, false,:checked => (privacy.name == @privacy.first.name)%>
-          <%= label_tag(privacy.name, privacy.name) %>
-          <%end%>
-
           </td>
         </tr>
-        <tr>
-          <th scope="row">
-            Category
-          </th>
+        <tr >
+          <td >
+            Who Can See
+          </td>
           <td>
-            <% @categories.each do |category| %>
-            <%=  check_box_tag category.id, category.name%>
-            <%= label_tag(category.name, category.name) %>
+            <% @privacy.each do |privacy| %>
+              <%= radio_button_tag "privacy",privacy.name, false,:checked => (privacy.name == @privacy.first.name)%>
+              <%= label_tag(privacy.name, privacy.name) %>
             <%end%>
           </td>
         </tr>
-        <tr>
-          <th scope="row">
-            Status
-          </th>
+        <tr class="form-group">
+          <td >
+            Category
+          </td >
           <td>
-            <%=  link_to "Save Draft" ,class:"btn button float-right"%>
-            <%= f.submit class:"btn button float-right"%>
+            <% @categories.each do |category| %>
+              <%= check_box_tag category.id, category.name%>
+              <%= label_tag(category.name, category.name) %>
+            <%end%>
+          </td>
+        </tr>
+        <tr class="form-group">
+          <td >
+            Status
+          </d >
+          <td>
+            <%= button_to "Save Draft" ,posts_path, class:"btn button"%>
+            <%= f.submit class:"btn button "%>
           </td>
         </tr>
       </table>
