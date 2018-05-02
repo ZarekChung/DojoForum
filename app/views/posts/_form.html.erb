@@ -1,0 +1,60 @@
+<div class="container">
+  <div class="form-group">
+    <%= form_for @post do |f| %>
+    <form>
+      <table class="table">
+        <tr class="form-group">
+
+          <td>
+            <%= f.text_field :title %>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <%= f.text_area  :article%>
+          </td>
+        </tr>
+        <tr>
+          <td >
+            <%= image_tag @post.photo if @post.photo?%>
+            <%= f.file_field :avatar %>
+        </td>
+      </tr>
+
+      <tr>
+        <th scope="row">
+          Who Can See
+        </th>
+        <td>
+          <% @privacy.each do |privacy| %>
+          <%= radio_button_tag "privacy",privacy.name, false,:checked => (privacy.name == @privacy.first.name)%>
+          <%= label_tag(privacy.name, privacy.name) %>
+          <%end%>
+
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">
+            Category
+          </th>
+          <td>
+            <% @categories.each do |category| %>
+            <%=  check_box_tag category.id, category.name%>
+            <%= label_tag(category.name, category.name) %>
+            <%end%>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">
+            Status
+          </th>
+          <td>
+            <%=  link_to "Save Draft" ,class:"btn button float-right"%>
+            <%= f.submit class:"btn button float-right"%>
+          </td>
+        </tr>
+      </table>
+    </form>
+  <% end %>
+</div>
+</div>
