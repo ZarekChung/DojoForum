@@ -1,3 +1,12 @@
+<% if @post.errors.any? %>
+  <h2>We have some erroes here !</h2>
+  <ul>
+    <% @post.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+  </ul>
+<% end %>
+
 <div class="container">
   <h1>Post</h1>
   <div class="form-group">
@@ -17,42 +26,37 @@
         <tr class="form-group">
           <td colspan="2">
             <%= image_tag @post.photo if @post.photo?%>
-            <%= f.file_field :avatar %>
+            <%= f.file_field :photo %>
           </td>
         </tr>
         <tr >
-          <td >
-            Who Can See
-          </td>
+          <td >Who Can See</td>
           <td>
             <% @privacy.each do |privacy| %>
-              <%= radio_button_tag "privacy",privacy.id, false,:checked => (privacy.name == @privacy.first.name)%>
-              <%= label_tag(privacy.name, privacy.name) %>
-            <%end%>
-          </td>
-        </tr>
-        <tr class="form-group">
-          <td >
-            Category
-          </td >
-          <td>
-            <% @categories.each do |category| %>
-              <%= check_box_tag category.name, category.id%>
-              <%= label_tag(category.name, category.name) %>
-            <%end%>
-          </td>
-        </tr>
-        <tr class="form-group">
-          <td >
-            Status
-          </d >
-          <td>
-            <%= button_to "Save Draft" ,posts_path, class:"btn button"%>
-            <%= f.submit class:"btn button "%>
-          </td>
-        </tr>
-      </table>
-    </form>
-  <% end %>
+              <%= f.label privacy.id do %>
+              <%= f.radio_button :privacy_id, privacy.id, :checked => (privacy.name == @privacy.first.name) %>
+              <%= privacy.name %>
+            <% end %>
+          <%end%>
+        </td>
+      </tr>
+      <tr class="form-group">
+        <td >Category</td >
+        <td>
+          <%= f.collection_check_boxes :categories, Category.all, :id, :name do |b| %>
+            <%= b.check_box %>
+            <%= b.label %>
+          <% end %>
+      </td>
+    </tr>
+    <tr class="form-group">
+      <td >Status</td >
+      <td>
+        <%= f.submit class:"btn button "%>
+      </td>
+    </tr>
+  </table>
+</form>
+<% end %>
 </div>
 </div>
