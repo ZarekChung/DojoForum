@@ -1,27 +1,34 @@
 <div class="container">
   <div class="form-group">
-    <table class="table">
-  <thead>
-    <tr>
-      <th scope="col">Replies count</th>
-      <th scope="col">Title</th>
-      <th scope="col">Last replied at </th>
-      <th scope="col">Viewed count </th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @categoryofposts.each do |categoryofpost| %>
-    <tr>
-      <td><%=categoryofpost.post.replies_count%></td>
-      <td><%=categoryofpost.post.title%></td>
-      <td><%=categoryofpost.post.updated_at%></td>
-      <td><%=categoryofpost.post.view_count%></td>
-    </tr>
-    <% end %>
-  </tbody>
-</table>
+    <table class="table tablesorter" id="postTable">
+      <thead>
+        <tr>
+          <th scope="col">Replies count</th>
+          <th scope="col">Title</th>
+          <th scope="col">Last replied at
+          </th>
+          <th scope="col">Viewed count
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @categoryofposts.each do |categoryofpost| %>
+          <tr>
+            <td><%=categoryofpost.post.replies_count%></td>
+            <td><%=categoryofpost.post.title%></td>
+            <td><%=categoryofpost.post.updated_at.strftime("%F")%></td>
+            <td><%=categoryofpost.post.view_count%></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="container pagination justify-content-center">
+    <%= paginate @categoryofposts,theme: 'twitter-bootstrap-4'%>
+  </div>
 </div>
-<div class="container pagination justify-content-center" >
-<%= paginate @categoryofposts,theme: 'twitter-bootstrap-4'%>
-</div>
-</div>
+<script>
+  $(function () {
+    $("#postTable").tablesorter();
+  });
+</script>

@@ -39,6 +39,7 @@ gem 'jquery-rails'
 gem 'ffaker'
 gem 'kaminari'
 gem 'bootstrap4-kaminari-views'
+gem 'jquery-tablesorter'
 
 
 group :development, :test do

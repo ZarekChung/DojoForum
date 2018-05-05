@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
   def index
     @categories = Category.all
-    @posts = Post.all.page(params[:page]).per(20)
+    @posts = Post.all.order(:id).page(params[:page]).per(20)
   end
 
   def new
