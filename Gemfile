@@ -37,6 +37,8 @@ gem 'carrierwave'
 gem 'bootstrap', '~> 4.1.1'
 gem 'jquery-rails'
 gem 'ffaker'
+gem 'kaminari'
+gem 'bootstrap4-kaminari-views'
 
 
 group :development, :test do
