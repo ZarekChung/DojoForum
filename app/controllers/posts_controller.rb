@@ -1,10 +1,7 @@
 class PostsController < ApplicationController
-
   def index
-    @posts = Post.all
     @categories = Category.all
-    #@categories = Category.all
-    #@privacy = Privacy.all
+    @posts = Post.all
   end
 
   def new
