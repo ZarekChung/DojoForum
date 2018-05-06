@@ -13,26 +13,27 @@ namespace :dev do
         intro: FFaker::Lorem::sentence(30),
         avatar: file
       )
-
       user.save!
     end
-
     puts User.count
   end
 
 
   task fake_post: :environment do
     Post.destroy_all
+
     200.times do |i|
+      count = rand(1..20)
+      file = File.open("#{Rails.root}/public/photo/#{count}.jpg")
       post = Post.create!(
         title: FFaker::Product.product_name,
         article: FFaker::Lorem.paragraph,
         privacy: Privacy.all.sample,
         replies_count: rand(10..200),
         view_count: rand(10..200),
-        user_id: 1,
+        user: User.all.sample,
         is_draft: true,
-        photo: FFaker::PhoneNumber.short_phone_number,
+        photo: file,
         updated_at: FFaker::Time.datetime
       )
     end
@@ -48,6 +49,20 @@ namespace :dev do
       )
     end
       puts "fake_fake_category_of_post done"
+  end
+
+  task fake_replies: :environment do
+    Reply.destroy_all
+    Post.all.each do |tweet|
+     25.times do |i|
+     Reply.create!(
+       content: FFaker::Lorem.sentence[0..140],
+       user: User.all.sample,
+       post: Post.all.sample
+     )
+     end
+   end
+      puts "fake_replies done"
   end
 
 end

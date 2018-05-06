@@ -4,6 +4,12 @@ class PostsController < ApplicationController
     @posts = Post.all.order(:id).page(params[:page]).per(20)
   end
 
+  def show
+    @post = Post.find_by(id: params[:id])
+    @replies = @post.replies.page(params[:page]).per(20)
+    @reply = Reply.new
+  end
+
   def new
     @post = Post.new
     @privacy = Privacy.all

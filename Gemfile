@@ -41,6 +41,7 @@ gem 'kaminari'
 gem 'bootstrap4-kaminari-views'
 gem 'jquery-tablesorter'
 gem 'devise'
+gem 'font-awesome-sass'
 
 
 group :development, :test do

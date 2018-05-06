@@ -1,0 +1,65 @@
+<div class="container">
+  <div class="title">
+    <h1><%=@post.title%></h1>
+    <div class="button-link text-right">
+      <button type="button" class="btn btn-secondary">Collect</button>
+      <button type="button" class="btn btn-secondary">Comment</button>
+    </div>
+  </div>
+  <table class="table table-bordered">
+    <tbody>
+      <tr>
+        <td>
+          <div class="user-info">
+            <%= image_tag @post.user.avatar, class:"img-responsive img-profile",width:'150px'%>
+            <%= @post.user.name%>
+          </div>
+          <button type="button" class="btn btn-secondary">Friend</button>
+        </td>
+        <td>
+          <div class="post-pic">
+            <%= image_tag @post.photo, class:"img-responsive img-profile",width:'400px' %>
+          </div>
+          <div class="post-content"><%=@post.article%></div>
+          <div class="post-button text-right">
+            <%= link_to edit_post_path(@post) do %>
+            <i class="fas fa-edit fa-2x"></i>
+          <% end %>
+        </td>
+      </tr>
+      <!--reply -->
+      <% @replies.each do |reply|%>
+      <tr>
+        <td>
+          <div class="reply-pic">
+            <%= image_tag reply.user.avatar, class:"img-responsive img-profile",width:'150px' %>
+          </div>
+          <div class="user-info"><%=reply.user.name%></div>
+          <button type="button" class="btn btn-secondary">Friend</button>
+        </td>
+        <td>
+          <div class="reply-content"><%=reply.content%></div>
+          <%= link_to edit_post_path(@post) do %>
+          <i class="fas fa-edit fa-2x"></i>
+          <% end %>
+        </td>
+      </tr>
+      <% end %>
+      <tr>
+        <td colspan="2">
+          <div class="container">
+             <div class="form-group">
+             <%= form_for [@post, @reply] do |f| %>
+             <%= f.text_area :content, placeholder: "comments",maxlength: 140,rows: 5, class:"form-control"%>
+             </div>
+              <%= f.submit  class:"btn btn-secondary"%>
+            <% end %>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="container pagination justify-content-center">
+    <%= paginate @replies,theme: 'twitter-bootstrap-4'%>
+  </div>
+</div>
