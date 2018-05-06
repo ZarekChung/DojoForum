@@ -19,6 +19,7 @@ class PostsController < ApplicationController
     @privacy = Privacy.all
     @post = Post.new(post_params)
     categories = params[:post][:categories]
+    @post.user = User.all.sample
 
     if @post.save
     #flash 會留到下一個request
@@ -35,6 +36,36 @@ class PostsController < ApplicationController
     render :new
     end
 
+  end
+
+  def edit
+    @post = Post.find(params[:id])
+    @privacy = Privacy.all
+  end
+
+  def update
+    @post = Post.find(params[:id])
+    categories = params[:post][:categories]
+    categories.each do |category|
+      #新增
+      if !category.blank?
+        @post.category_of_posts.each do |categoryofpost|
+          categoryofpost.update_category(@post,category,categoryofpost.id)
+        end
+      else
+        #blank  
+      end
+      #刪除
+      #@post.category_of_posts.where(category: category).destroy if category.blank?
+    end
+
+    if @post.update_attributes(post_params)
+      flash[:notice] = "post was scuccessfully updated"
+      redirect_to post_path(@post)
+    else
+      flash.now[:alert] ="post was failed to update"
+      render :edit
+    end
   end
 
   def destroy

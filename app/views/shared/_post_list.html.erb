@@ -13,7 +13,7 @@
       </thead>
       <tbody>
         <% @posts.each do |post| %>
-          <tr>
+            <tr data-link="<%= post_path(post) %>">
             <td><%=post.replies_count%></td>
             <td><%=post.title%></td>
             <td><%=post.updated_at.strftime("%F")%></td>
@@ -30,5 +30,9 @@
 <script>
   $(function () {
     $("#postTable").tablesorter();
+  });
+
+  $("tr[data-link]").click(function() {
+    window.location = $(this).data("link")
   });
 </script>

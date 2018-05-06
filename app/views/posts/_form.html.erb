@@ -25,7 +25,7 @@
         </tr>
         <tr class="form-group">
           <td colspan="2">
-            <%= image_tag @post.photo if @post.photo?%>
+            <%= image_tag @post.photo ,width:'400px' if @post.photo?%><br>
             <%= f.file_field :photo %>
           </td>
         </tr>
@@ -34,7 +34,11 @@
           <td>
             <% @privacy.each do |privacy| %>
               <%= f.label privacy.id do %>
-              <%= f.radio_button :privacy_id, privacy.id, :checked => (privacy.name == @privacy.first.name) %>
+              <% if @post.privacy.blank?%>
+                <%= f.radio_button :privacy_id, privacy.id, :checked => privacy.name == @privacy.first.name %>
+              <%else %>
+                <%= f.radio_button :privacy_id, privacy.id %>
+              <%end%>
               <%= privacy.name %>
             <% end %>
           <%end%>
@@ -44,9 +48,13 @@
         <td >Category</td >
         <td>
           <%= f.collection_check_boxes :categories, Category.all, :id, :name do |b| %>
-            <%= b.check_box %>
-            <%= b.label %>
-          <% end %>
+          <% if get_category?(b.value,@post) %>
+            <%= b.check_box :checked => true %>
+          <%else%>
+            <%= b.check_box%>
+          <%end%>
+          <%= b.label %>
+        <% end %>
       </td>
     </tr>
     <tr class="form-group">
