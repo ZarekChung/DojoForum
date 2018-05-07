@@ -23,8 +23,8 @@ namespace :dev do
     Post.destroy_all
 
     200.times do |i|
-      count = rand(1..20)
-      file = File.open("#{Rails.root}/public/photo/#{count}.jpg")
+      #count = rand(1..20)
+      file = File.open("#{Rails.root}/public/photo/pic.jpg")
       post = Post.create!(
         title: FFaker::Product.product_name,
         article: FFaker::Lorem.paragraph,

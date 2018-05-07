@@ -23,9 +23,11 @@ class PostsController < ApplicationController
 
     if @post.save
     #flash 會留到下一個request
-    categories.each do |category|
-      if !category.blank?
-      @post.category_of_posts.create!(post: @post, category_id: category)
+    Category.all.each do |category|
+      if categories.to_a.include?(category.id.to_s)
+      @post.category_of_posts.create!(post: @post, category_id: category.id,is_checked:true)
+      else
+      @post.category_of_posts.create!(post: @post, category_id: category.id,is_checked:false)
       end
     end
     flash[:notice] = "post was scuccessfully created"
@@ -46,19 +48,14 @@ class PostsController < ApplicationController
   def update
     @post = Post.find(params[:id])
     categories = params[:post][:categories]
-    categories.each do |category|
-      #新增
-      if !category.blank?
-        @post.category_of_posts.each do |categoryofpost|
-          categoryofpost.update_category(@post,category,categoryofpost.id)
-        end
-      else
-        #blank  
-      end
-      #刪除
-      #@post.category_of_posts.where(category: category).destroy if category.blank?
-    end
 
+    @post.category_of_posts.each do |categoryofpost|
+      if categories.to_a.include?(categoryofpost.category_id.to_s)
+      categoryofpost.update_attributes(is_checked: true )
+      else
+      categoryofpost.update_attributes(is_checked: false )  
+      end
+    end
     if @post.update_attributes(post_params)
       flash[:notice] = "post was scuccessfully updated"
       redirect_to post_path(@post)
