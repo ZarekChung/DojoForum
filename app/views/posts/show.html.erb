@@ -42,33 +42,46 @@
         </td>
         <td>
           <div class="reply-content"><%=reply.content%></div>
-          <div class="icon-view text-right">
-            <%= link_to edit_post_path(@post) do %>
-            <i class="fas fa-edit fa-2x"></i>
-          <% end %>
-          <%= link_to post_reply_path(@post,reply), method: :delete do%>
-          <i class="fas fa-times-circle fa-2x"></i>
-        <%end%>
+          <div id="<%=reply.id%>" class="icon-view text-right">
+            <%#= link_to edit_post_path(@post), remote: true,:onclick => 'editReplay()' do %>
+              <i class="fas fa-edit fa-2x" onclick="editReplay(event)"></i>
+              <%# end %>
+                <%= link_to post_reply_path(@post,reply), method: :delete do%>
+                <i class="fas fa-times-circle fa-2x"></i>
+              <%end%>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+      <!--reply end -->
+      <tr>
+        <td colspan="2">
+          <div id="reply-content">
+            <%= render partial: "replies/form", locals:{post:@post,reply:@reply} %>
           </div>
         </td>
-    </tr>
-    <% end %>
-    <!--reply end -->
-    <tr>
-      <td colspan="2">
-        <div class="container">
-          <div class="form-group">
-            <%= form_for [@post, @reply] do |f| %> 
-            <%= f.text_area :content, placeholder: "comments",maxlength: 140,rows: 5, class:"form-control"%>
-          </div>
-            <%= f.submit class:"btn btn-secondary"%>
-            <% end %>
-        </div>
-      </td>
-    </tr>
+      </tr>
     </tbody>
-    </table>
-      <div class="container pagination justify-content-center">
-      <%= paginate @replies,theme: 'twitter-bootstrap-4'%>
+  </table>
+  <div class="container pagination justify-content-center">
+    <%= paginate @replies,theme: 'twitter-bootstrap-4'%>
   </div>
 </div>
+<script>
+  function editReplay(event) {
+    var id = event.target.parentNode.id;
+    var post_id = <%=@post.id%>;
+
+    $.ajax({
+      url: "/posts/" + post_id + "/replies/" + id + "/edit",
+      method: "GET",
+      dataType: "HTML",
+      error: function (xhr) {
+        //alert('請再點選一次');
+      },
+      success: function (data) {
+        $('#reply-content').html(data);
+      }
+    });
+  }
+</script>
