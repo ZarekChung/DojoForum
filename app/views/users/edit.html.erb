@@ -1,0 +1,40 @@
+<% if @user.errors.any? %>
+  <h2>We have some erroes here !</h2>
+  <ul>
+    <% @user.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+  </ul>
+<% end %>
+<div class="container">
+  <h1>Post</h1>
+  <div class="form-group">
+    <%= form_for @user do |f| %>
+    <form>
+      <table class="table table-borderless">
+        <tr class="form-group">
+          <td colspan="2">
+            <%= f.text_field :name , class:"form-control"%>
+          </td>
+        </tr>
+        <tr class="form-group">
+          <td colspan="2">
+            <%= f.text_area :intro ,rows: 5,class:"form-control"%>
+          </td>
+        </tr>
+        <tr class="form-group">
+          <td colspan="2">
+            <%= image_tag @user.avatar ,width:'200px' if @user.avatar?%><br>
+            <%= f.file_field :avatar %>
+          </td>
+        </tr>
+    <tr class="form-group">
+      <td>
+        <%= f.submit class:"btn btn-secondary"%>
+      </td>
+    </tr>
+  </table>
+</form>
+<% end %>
+</div>
+</div>
