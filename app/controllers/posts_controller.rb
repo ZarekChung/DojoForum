@@ -20,7 +20,7 @@ class PostsController < ApplicationController
     @privacy = Privacy.all
     @post = Post.new(post_params)
     categories = params[:post][:categories]
-    @post.user = User.all.sample
+    @post.user = current_user
 
     if @post.save
     #flash 會留到下一個request
