@@ -21,6 +21,7 @@
             <%= image_tag @post.photo, class:"img-responsive img-profile",width:'400px' %>
           </div>
           <div class="post-content"><%=@post.article%></div>
+          <% if current_user == @post.user %>
           <div class="post-button text-right">
             <%= link_to edit_post_path(@post) do %>
             <i class="fas fa-edit fa-2x"></i>
@@ -28,6 +29,8 @@
           <%= link_to post_path(@post), method: :delete do%>
           <i class="fas fa-times-circle fa-2x"></i>
         <%end%>
+          </div>
+          <%end%>
       </td>
     </tr>
     <!--reply -->
@@ -42,6 +45,7 @@
         </td>
         <td>
           <div class="reply-content"><%=reply.content%></div>
+          <% if current_user == reply.user %>
           <div id="<%=reply.id%>" class="icon-view text-right">
             <%#= link_to edit_post_path(@post), remote: true,:onclick => 'editReplay()' do %>
               <i class="fas fa-edit fa-2x" onclick="editReplay(event)"></i>
@@ -50,6 +54,7 @@
                 <i class="fas fa-times-circle fa-2x"></i>
               <%end%>
             </div>
+            <%end%>
           </td>
         </tr>
       <% end %>

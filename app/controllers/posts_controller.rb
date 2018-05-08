@@ -1,4 +1,5 @@
 class PostsController < ApplicationController
+  before_action :authenticate_user!, :except => [:index]
   def index
     @categories = Category.all
     @posts = Post.all.order(:id).page(params[:page]).per(20)
@@ -42,7 +43,12 @@ class PostsController < ApplicationController
 
   def edit
     @post = Post.find(params[:id])
-    @privacy = Privacy.all
+    if current_user == @post.user
+      @privacy = Privacy.all
+    else
+      flash[:notice] ="post user wrong"
+      redirect_to post_path(@post)
+    end
   end
 
   def update
@@ -67,10 +73,13 @@ class PostsController < ApplicationController
 
   def destroy
     @post = Post.find(params[:id])
-    #if current_user.admin?
+    if current_user == @post.user
       @post.destroy
       redirect_to posts_path
-    #end
+    else
+      flash[:notice] ="post user wrong"
+      redirect_to post_path(@post)
+    end
   end
 
   private
