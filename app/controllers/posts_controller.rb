@@ -1,12 +1,12 @@
 class PostsController < ApplicationController
   before_action :authenticate_user!, :except => [:index]
+  before_action :set_post, only: [:show,:edit,:update,:destroy]
   def index
     @categories = Category.all
     @posts = Post.all.order(:id).page(params[:page]).per(20)
   end
 
   def show
-    @post = Post.find_by(id: params[:id])
     @replies = @post.replies.page(params[:page]).per(20)
     @reply = Reply.new
   end
@@ -42,7 +42,6 @@ class PostsController < ApplicationController
   end
 
   def edit
-    @post = Post.find(params[:id])
     if current_user == @post.user
       @privacy = Privacy.all
     else
@@ -52,7 +51,6 @@ class PostsController < ApplicationController
   end
 
   def update
-    @post = Post.find(params[:id])
     categories = params[:post][:categories]
 
     @post.category_of_posts.each do |categoryofpost|
@@ -72,7 +70,6 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    @post = Post.find(params[:id])
     if current_user == @post.user
       @post.destroy
       redirect_to posts_path
@@ -83,6 +80,10 @@ class PostsController < ApplicationController
   end
 
   private
+  def set_post
+    @post = Post.find(params[:id])
+  end
+
   def post_params
     params.require(:post).permit(:title,:article,:privacy_id,:photo)
   end
