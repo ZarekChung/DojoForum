@@ -53,7 +53,7 @@ class PostsController < ApplicationController
       if categories.to_a.include?(categoryofpost.category_id.to_s)
       categoryofpost.update_attributes(is_checked: true )
       else
-      categoryofpost.update_attributes(is_checked: false )  
+      categoryofpost.update_attributes(is_checked: false )
       end
     end
     if @post.update_attributes(post_params)

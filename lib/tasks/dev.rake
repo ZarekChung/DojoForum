@@ -42,11 +42,13 @@ namespace :dev do
 
   task fake_category_of_post: :environment do
     CategoryOfPost.destroy_all
-    200.times do |i|
-      categoryOfPost = CategoryOfPost.create!(
-       post: Post.all.sample,
-       category: Category.all.sample
-      )
+    Post.all.each do |post|
+      Category.all.each do |c|
+        categoryOfPost = CategoryOfPost.create!(
+         post: post,
+         category: c
+        )
+      end
     end
       puts "fake_fake_category_of_post done"
   end
