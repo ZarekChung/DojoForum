@@ -6,4 +6,6 @@ Rails.application.routes.draw do
     resources :replies
   end
   resources :categories
+
+  resources :users, only: [:show, :edit, :update]
 end
