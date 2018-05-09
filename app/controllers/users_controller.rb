@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show,:edit, :update]
+  before_action :set_user, only: [:drafts,:posts,:show,:edit, :update]
 
   def edit
     unless @user == current_user
@@ -16,6 +16,16 @@ class UsersController < ApplicationController
     flash.now[:alert] ="user was failed to update"
     render :edit
     end
+  end
+
+  def posts
+    @posts = @user.posts.where(is_draft: false).page(params[:page]).per(20)
+    render :layout => false
+  end
+
+  def drafts
+    @drafts = @user.posts.where(is_draft: true).page(params[:page]).per(20)
+    render :layout => false
   end
 
   private

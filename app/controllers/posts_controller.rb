@@ -21,7 +21,7 @@ class PostsController < ApplicationController
     @post = Post.new(post_params)
     categories = params[:post][:categories]
     @post.user = current_user
-
+    @post.is_draft = false
     if @post.save
     #flash 會留到下一個request
     Category.all.each do |category|

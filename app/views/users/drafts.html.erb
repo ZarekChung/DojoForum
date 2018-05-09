@@ -1,0 +1,8 @@
+<div class="container">
+  <div class="form-group">
+    <%= render partial: "userlist", locals:{posts:@drafts} %>
+  </div>
+  <div class="container pagination justify-content-center">
+    <%= paginate @drafts,theme: 'twitter-bootstrap-4'%>
+  </div>
+</div>
