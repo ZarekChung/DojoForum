@@ -23,7 +23,8 @@
     <ul id="user-items" class="nav nav-tabs">
       <li class="nav-item" >
       <a data-toggle="tab" class="nav-link" href="#my-posts" onclick="showUserPosts(event)">My Post</a></li>
-      <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#">Menu 1</a></li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#my-comments" onclick="showUserComments(event)">My Comment</a></li>
       <%if current_user == @user %>
       <li class="nav-item">
       <a class="nav-link" data-toggle="tab" href="#my-drafts" onclick="showUserDrafts(event)">My Draft</a></li>
@@ -35,7 +36,7 @@
       <div id="my-posts" class="tab-pane fade">
 
       </div>
-      <div id="menu" class="tab-pane fade">
+      <div id="my-comments" class="tab-pane fade">
       </div>
       <%if current_user == @user %>
       <div id="my-drafts" class="tab-pane fade">
@@ -85,6 +86,23 @@ $( document ).ready(function() {
       success: function (data) {
         console.log("ok")
         $('#my-drafts').html(data);
+      }
+    });
+  }
+  //comments
+  function showUserComments(event) {
+    var user_id = <%=@user.id%>;
+
+    $.ajax({
+      url: "/users/"+user_id+"/replies",
+      method: "GET",
+      dataType: "HTML",
+      error: function (xhr) {
+        //alert('請再點選一次');
+      },
+      success: function (data) {
+        console.log("ok")
+        $('#my-comments').html(data);
       }
     });
   }

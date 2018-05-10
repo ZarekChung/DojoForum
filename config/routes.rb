@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     member do
       get :posts
       get :drafts
+      get :replies
     end
   end
 end

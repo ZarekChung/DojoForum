@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:drafts,:posts,:show,:edit, :update]
+  before_action :set_user, only: [:replies,:drafts,:posts,:show,:edit, :update]
 
   def edit
     unless @user == current_user
@@ -25,6 +25,11 @@ class UsersController < ApplicationController
 
   def drafts
     @drafts = @user.posts.where(is_draft: true).page(params[:page]).per(20)
+    render :layout => false
+  end
+
+  def replies
+    @replies = @user.replies.page(params[:page]).per(20)
     render :layout => false
   end
 
