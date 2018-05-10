@@ -52,7 +52,6 @@ class PostsController < ApplicationController
 
   def update
     categories = params[:post][:categories]
-
     @post.category_of_posts.each do |categoryofpost|
       if categories.to_a.include?(categoryofpost.category_id.to_s)
       categoryofpost.update_attributes(is_checked: true )
@@ -61,6 +60,7 @@ class PostsController < ApplicationController
       end
     end
     if @post.update_attributes(post_params)
+      @post.update_attributes(is_draft: false) if set_publishing?
       flash[:notice] = "post was scuccessfully updated"
       redirect_to post_path(@post)
     else
@@ -80,6 +80,9 @@ class PostsController < ApplicationController
   end
 
   private
+  def set_publishing?
+    params[:commit] == "Update Post"
+  end
   def set_post
     @post = Post.find(params[:id])
   end

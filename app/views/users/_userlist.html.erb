@@ -9,15 +9,15 @@
   </thead>
   <tbody>
     <% posts.each do |post| %>
-      <tr data-link="<%= post_path(post) %>">
-        <td><%=post.title%></td>
-        <td>
+      <tr>
+        <td data-link="<%= post_path(post) %>"><%=post.title%></td>
+        <td data-link="<%= post_path(post) %>">
           <% if post.is_draft? %>
             <span>Draft</span>
           <%else%>
             <span>Published</span>
           <%end%>
-          <td><%=post.updated_at.strftime("%F")%></td>
+          <td data-link="<%= post_path(post) %>"><%=post.updated_at.strftime("%F")%></td>
           <td>
             <% if current_user == post.user %>
               <%= link_to edit_post_path(post) do %>
@@ -37,7 +37,7 @@ $(function () {
   $("#postTable").tablesorter();
 });
 
-$("tr[data-link]").click(function () {
+$("td[data-link]").click(function () {
   window.location = $(this).data("link")
 });
 </script>
