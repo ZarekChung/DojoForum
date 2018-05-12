@@ -3,7 +3,7 @@
   <div class="user-info">
     <div class="row">
       <div class="col-6 col-md-3">
-        <div class="user-pic text-center">
+        <div class="text-center">
           <%= image_tag @user.avatar,width:'200px' if @user.avatar?%>
         </div>
         <h6 class="text-center"><%=@user.name%></h6>
@@ -35,6 +35,9 @@
         <li class="nav-item">
           <a class="nav-link" data-toggle="tab" href="#my-collects" onclick="showUserCollects(event)">My Collect</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#my-friends" onclick="showUserfriends(event)">My Friend</a>
+        </li>
       </ul>
 
       <div class="tab-content">
@@ -44,6 +47,7 @@
           <div id="my-drafts" class="tab-pane fade"></div>
         <%end %>
         <div id="my-collects" class="tab-pane fade"></div>
+        <div id="my-friends" class="tab-pane fade"></div>
       </div>
     </div>
 
@@ -103,7 +107,7 @@
       }
     });
   }
-  //comments
+  //Collects
   function showUserCollects(event) {
     var user_id = <%=@user.id%>;
 
@@ -117,6 +121,23 @@
       success: function (data) {
         console.log("ok")
         $('#my-collects').html(data);
+      }
+    });
+  }
+  //friend_list
+  function showUserfriends(event) {
+    var user_id = <%=@user.id%>;
+
+    $.ajax({
+      url: "/users/" + user_id + "/friend_list",
+      method: "GET",
+      dataType: "HTML",
+      error: function (xhr) {
+        //alert('請再點選一次');
+      },
+      success: function (data) {
+        console.log("ok")
+        $('#my-friends').html(data);
       }
     });
   }

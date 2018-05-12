@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-  #before_action :set_user, only: [:collects,:replies,:drafts,:posts,:show,:edit, :update]
   before_action :set_user
 
   def edit
@@ -37,6 +36,27 @@ class UsersController < ApplicationController
   def collects
     @collects = @user.collected_posts.page(params[:page]).per(20)
     render :layout => false
+  end
+
+  def friend_list
+    @friend_list = @user.all_friends
+    @firend_replies = @user.inverse_friends
+    @firend_responses = @user.friendships.where(:is_confirm => false)
+    render :layout => false
+  end
+
+  def accept
+   reply_user = @user.inverse_friends.where(user_id: params[:user_id]).first
+   reply_user.update_attributes(is_confirm: true)
+   @friendship = current_user.friendships.build(friend_id: params[:user_id],is_confirm: true)
+   @friendship.save
+   redirect_back(fallback_location: user_path(@user))
+  end
+
+  def ignore
+   reply_user = @user.inverse_friends.where(user_id: params[:user_id])
+   reply_user.destroy_all
+   redirect_back(fallback_location: user_path(@user))
   end
 
   private

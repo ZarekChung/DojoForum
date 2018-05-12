@@ -9,14 +9,18 @@
   <table class="table table-bordered">
     <tbody>
       <tr>
-        <td>
-          <div class="user-info">
+        <td style="width:20%" class="text-center">
+          <div class="user-pic">
             <%= image_tag @post.user.avatar, class:"img-responsive img-profile",width:'150px'%>
-            <%= @post.user.name%>
           </div>
-          <button type="button" class="btn btn-secondary">Friend</button>
+           <h5><%= @post.user.name%></h5>
+          <div>
+            <%= link_to 'Edit' ,edit_user_path(@post.user) , class: "btn btn-secondary" if current_user==@post.user%>
+            <%= render partial: "shared/friends", locals: {user:@post.user} if current_user!=@post.user %>
+          </div>
         </td>
-        <td>
+        <td style="width:80%">
+          <div class="user-info">
           <div class="post-pic">
             <%= image_tag @post.photo, class:"img-responsive img-profile",width:'400px' %>
           </div>
@@ -31,19 +35,24 @@
         <%end%>
           </div>
           <%end%>
+        </div>
       </td>
     </tr>
     <!--reply -->
     <% @replies.each do |reply|%>
       <tr>
-        <td>
-          <div class="reply-pic">
-            <%= image_tag reply.user.avatar, class:"img-responsive img-profile",width:'150px' %>
+        <td style="width:20%" class="text-center">
+          <div class="user-info">
+            <div class="reply-pic">
+              <%= image_tag reply.user.avatar, class:"img-responsive img-profile",width:'150px' %>
+            </div>
+            <h5><%= reply.user.name %></h5>
+            <div>
+            <%= render partial: "shared/friends", locals: {user:reply.user} if current_user!=reply.user %>
+            </div>
           </div>
-          <div class="user-info"><%=reply.user.name%></div>
-          <button type="button" class="btn btn-secondary">Friend</button>
         </td>
-        <td>
+        <td style="width:80%">
           <div class="reply-content"><%=reply.content%></div>
           <% if current_user == reply.user %>
           <div id="<%=reply.id%>" class="icon-view text-right">

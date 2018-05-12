@@ -53,6 +53,19 @@ namespace :dev do
       puts "fake_fake_category_of_post done"
   end
 
+  task fake_firend: :environment do
+    Friendship.destroy_all
+    User.all.each do |user|
+      5.times do |i|
+        friendship = Friendship.create!(
+          user: user,
+          friend: User.all.sample,
+        )
+      end
+    end
+    puts "fake_fake_category_of_post done"
+  end
+
   task fake_replies: :environment do
     Reply.destroy_all
     Post.all.each do |tweet|

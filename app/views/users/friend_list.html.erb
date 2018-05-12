@@ -1,0 +1,85 @@
+<div class="container">
+  <div class="form-group" id="firend-list">
+    <% if current_user == @user %>
+    <div class="wait-list">
+      <h4>Waiting for response</h4>
+    <%@firend_responses.each do |response_friend|%>
+    <div class="user-info-firend">
+      <div class="user-pic-firend">
+      <%= image_tag response_friend.friend.avatar,width:'100px' if response_friend.friend.avatar?%>
+      </div>
+      <h5><%= response_friend.friend.name%></h5>
+    </div>
+    <% end %>
+    </div>
+    <div class="reply-list">
+      <h4>Waiting for reply</h4>
+      <%@firend_replies.each do |replay_friend|%>
+      <div class="user-info-firend" id="<%=replay_friend.user.id%>">
+        <div class="user-pic-firend">
+        <%= image_tag replay_friend.user.avatar,width:'100px' if replay_friend.user.avatar?%>
+        </div>
+        <h5><%= replay_friend.user.name%></h5>
+        <div>
+        <button type="button" id="accept-btn" class="btn btn-info" onclick="accept(event)">Accept</button>
+        <h1></h1>
+        <button type="button" id="ignore-btn" class="btn btn-info" onclick="ignore(event)">Ignore</button>
+        </div>
+      </div>
+      <% end %>
+    </div>
+    <%end%>
+    <div class="friend-list">
+        <h4>friend</h4>
+      <%@friend_list.each do |friend|%>
+      <div class="user-info-firend">
+        <div class="user-pic-firend">
+        <%= image_tag friend.avatar,width:'100px' if friend.avatar?%>
+        </div>
+        <h5><%= friend.name%></h5>
+      </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+<script>
+function accept(event) {
+  var user_id = event.target.parentNode.parentNode.id;
+  $.ajax({
+    url: "/users/"+ <%=@user.id%> +"/accept",
+    method: "Post",
+    dataType: "HTML",
+    data: {
+     user_id: user_id
+     },
+    error: function (xhr) {
+      alert(xhr);
+    },
+    success: function (data) {
+      //console.log("ok");
+      window.location.reload();
+    }
+  });
+
+}
+
+function ignore(event) {
+  var user_id = event.target.parentNode.parentNode.id;
+  $.ajax({
+    url: "/users/"+ <%=@user.id%> +"/ignore",
+    method: "Post",
+    dataType: "HTML",
+    data: {
+     user_id: user_id
+     },
+    error: function (xhr) {
+       alert(xhr);
+    },
+    success: function (data) {
+      //console.log("ok");
+      window.location.reload();
+    }
+  });
+
+}
+</script>

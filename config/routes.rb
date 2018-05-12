@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     end
   end
   resources :categories
+  resources :friends, only: [:create, :destroy]
 
   resources :users, only: [:show, :edit, :update] do
     member do
@@ -17,6 +18,9 @@ Rails.application.routes.draw do
       get :drafts
       get :replies
       get :collects
+      get :friend_list
+      post :accept
+      post :ignore
     end
   end
 end

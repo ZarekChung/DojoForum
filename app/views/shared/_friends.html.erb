@@ -1,0 +1,11 @@
+<% if user != current_user %>
+  <% if current_user.is_firend?(user) %>
+    <%= link_to "Friend", friend_path(user.id), class: "btn btn-info",method: :delete%>
+  <% else %>
+    <%if current_user.is_wait?(user) %>
+      <%= link_to "ADD Friend", friends_path(friend_id: user.id),class: "btn btn-secondary", method: :post%>
+    <%else%>
+      <%= link_to "waiting reply", friend_path(user.id), class: "btn btn-light",method: :delete%>
+    <%end%>
+  <% end %>
+<% end %>
