@@ -18,50 +18,48 @@
       </div>
     </div>
   </div>
-<div class="user-detail">
-  <div class="container">
-    <ul id="user-items" class="nav nav-tabs">
-      <li class="nav-item" >
-      <a data-toggle="tab" class="nav-link" href="#my-posts" onclick="showUserPosts(event)">My Post</a></li>
-      <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#my-comments" onclick="showUserComments(event)">My Comment</a></li>
-      <%if current_user == @user %>
-      <li class="nav-item">
-      <a class="nav-link" data-toggle="tab" href="#my-drafts" onclick="showUserDrafts(event)">My Draft</a></li>
+  <div class="user-detail">
+    <div class="container">
+      <ul id="user-items" class="nav nav-tabs">
+        <li class="nav-item">
+          <a data-toggle="tab" class="nav-link" href="#my-posts" onclick="showUserPosts(event)">My Post</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#my-comments" onclick="showUserComments(event)">My Comment</a>
+        </li>
+        <%if current_user == @user %>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#my-drafts" onclick="showUserDrafts(event)">My Draft</a>
+          </li>
         <%end %>
-      <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#menu3">Menu 3</a></li>
-    </ul>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#my-collects" onclick="showUserCollects(event)">My Collect</a>
+        </li>
+      </ul>
 
-    <div class="tab-content">
-      <div id="my-posts" class="tab-pane fade">
-
-      </div>
-      <div id="my-comments" class="tab-pane fade">
-      </div>
-      <%if current_user == @user %>
-      <div id="my-drafts" class="tab-pane fade">
-      </div>
-      <%end %>
-      <div id="menu3" class="tab-pane fade">
-        <h3>Menu 3</h3>
-        <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+      <div class="tab-content">
+        <div id="my-posts" class="tab-pane fade"></div>
+        <div id="my-comments" class="tab-pane fade"></div>
+        <%if current_user == @user %>
+          <div id="my-drafts" class="tab-pane fade"></div>
+        <%end %>
+        <div id="my-collects" class="tab-pane fade"></div>
       </div>
     </div>
+
   </div>
 
 </div>
-
-</div>
 <script>
-$( document ).ready(function() {
-  $('#my-posts').toggleClass('active');
-  $('#user-items li a:first').click();
-});
+  $(document).ready(function () {
+    $('#my-posts').toggleClass('active');
+    $('#user-items li a:first').click();
+  });
 
   function showUserPosts(event) {
     var user_id = <%=@user.id%>;
     $.ajax({
-      url: "/users/"+user_id+"/posts",
+      url: "/users/" + user_id + "/posts",
       method: "GET",
       dataType: "HTML",
       error: function (xhr) {
@@ -77,14 +75,13 @@ $( document ).ready(function() {
     var user_id = <%=@user.id%>;
 
     $.ajax({
-      url: "/users/"+user_id+"/drafts",
+      url: "/users/" + user_id + "/drafts",
       method: "GET",
       dataType: "HTML",
       error: function (xhr) {
         //alert('請再點選一次');
       },
       success: function (data) {
-        console.log("ok")
         $('#my-drafts').html(data);
       }
     });
@@ -94,7 +91,7 @@ $( document ).ready(function() {
     var user_id = <%=@user.id%>;
 
     $.ajax({
-      url: "/users/"+user_id+"/replies",
+      url: "/users/" + user_id + "/replies",
       method: "GET",
       dataType: "HTML",
       error: function (xhr) {
@@ -103,6 +100,23 @@ $( document ).ready(function() {
       success: function (data) {
         console.log("ok")
         $('#my-comments').html(data);
+      }
+    });
+  }
+  //comments
+  function showUserCollects(event) {
+    var user_id = <%=@user.id%>;
+
+    $.ajax({
+      url: "/users/" + user_id + "/collects",
+      method: "GET",
+      dataType: "HTML",
+      error: function (xhr) {
+        //alert('請再點選一次');
+      },
+      success: function (data) {
+        console.log("ok")
+        $('#my-collects').html(data);
       }
     });
   }

@@ -2,7 +2,7 @@
   <div class="title">
     <h1><%=@post.title%></h1>
     <div class="button-link text-right">
-      <button type="button" class="btn btn-secondary">Collect</button>
+      <%= render partial: "shared/collect", locals: {post: @post} %>
       <button type="button" class="btn btn-secondary">Comment</button>
     </div>
   </div>
@@ -86,6 +86,38 @@
       },
       success: function (data) {
         $('#reply-content').html(data);
+      }
+    });
+  }
+  function collect(event){
+    var post_id = <%=@post.id%>;
+    $.ajax({
+      url: "/posts/" + post_id + "/collect",
+      method: "POST",
+      dataType: "HTML",
+      error: function (xhr) {
+          console.log(xhr);
+      },
+      success: function (data) {
+        $("#collet-btn").html("UnCollect");
+        $("#collet-btn").addClass("btn btn-info");
+        $("#collet-btn").attr("onclick","uncollect(event)");
+        }
+    });
+  }
+  function uncollect(event){
+    var post_id = <%=@post.id%>;
+    $.ajax({
+      url: "/posts/" + post_id + "/uncollect",
+      method: "POST",
+      dataType: "HTML",
+      error: function (xhr) {
+        console.log(xhr);
+      },
+      success: function (data) {
+        $("#collet-btn").html("Collect");
+        $("#collet-btn").addClass("btn btn-secondary").removeClass("btn-info");
+        $("#collet-btn").attr("onclick","collect(event)");
       }
     });
   }

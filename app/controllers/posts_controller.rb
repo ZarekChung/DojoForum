@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
   before_action :authenticate_user!, :except => [:index]
-  before_action :set_post, only: [:show,:edit,:update,:destroy]
+  #before_action :set_post, only: [:uncollect,:collect,:show,:edit,:update,:destroy]
+  before_action :set_post, :except=>[:index,:create,:new]
   def index
     @categories = Category.all
     @posts = Post.all.order(:id).page(params[:page]).per(20)
@@ -77,6 +78,17 @@ class PostsController < ApplicationController
       flash[:notice] ="post user wrong"
       redirect_to post_path(@post)
     end
+  end
+
+  def collect
+   @post.collects.create!(user: current_user)
+   redirect_back(fallback_location: post_path(@post))
+  end
+
+  def uncollect
+   collects = Collect.where(post: @post, user: current_user)
+   collects.destroy_all
+   redirect_back(fallback_location: post_path(@post))
   end
 
   private

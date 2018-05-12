@@ -6,4 +6,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
   has_many :posts,dependent: :destroy
   has_many :replies, dependent: :restrict_with_error
+
+  has_many :collects, dependent: :destroy
+  has_many :collected_posts, through: :collects, source: :post
 end

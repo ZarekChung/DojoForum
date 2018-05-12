@@ -1,0 +1,39 @@
+<div class="container">
+  <table class="table" id="collectTable">
+    <tbody>
+      <% @collects.each do |collect|%>
+        <tr id="<%=collect.id%>">
+          <td data-link="<%= post_path(collect) %>">
+            <div class="reply-title">
+              <%=collect.title%></div>
+          </td>
+          <td>
+            <div class="post-button text-right">
+              <%= render partial: "shared/collect", locals: {post: collect} %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<script>
+  function uncollect(event) {
+    var post_id = event.target.parentNode.parentNode.parentNode.id;
+    $.ajax({
+      url: "/posts/" + post_id + "/uncollect",
+      method: "POST",
+      dataType: "HTML",
+      error: function (xhr) {
+        console.log(xhr);
+      },
+      success: function (data) {
+        //UI delete
+        $("#" + post_id).remove();
+      }
+    });
+  }
+  $("td[data-link]").click(function () {
+    window.location = $(this).data("link")
+  });
+</script>

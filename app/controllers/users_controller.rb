@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:replies,:drafts,:posts,:show,:edit, :update]
+  #before_action :set_user, only: [:collects,:replies,:drafts,:posts,:show,:edit, :update]
+  before_action :set_user
 
   def edit
     unless @user == current_user
@@ -30,6 +31,11 @@ class UsersController < ApplicationController
 
   def replies
     @replies = @user.replies.page(params[:page]).per(20)
+    render :layout => false
+  end
+
+  def collects
+    @collects = @user.collected_posts.page(params[:page]).per(20)
     render :layout => false
   end
 

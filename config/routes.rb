@@ -4,6 +4,10 @@ Rails.application.routes.draw do
   root "posts#index"
   resources :posts do
     resources :replies
+    member do
+    post :collect
+    post :uncollect
+    end
   end
   resources :categories
 
@@ -12,6 +16,7 @@ Rails.application.routes.draw do
       get :posts
       get :drafts
       get :replies
+      get :collects
     end
   end
 end
