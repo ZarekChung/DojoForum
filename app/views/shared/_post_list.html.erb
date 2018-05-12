@@ -13,18 +13,23 @@
       </thead>
       <tbody>
         <% @posts.each do |post| %>
+        <% if check_privacty?(post) %>
+        <% @pagePosts = Array.new %>
+        <% @pagePosts.push(post) %>
             <tr data-link="<%= post_path(post) %>">
             <td><%=post.replies_count%></td>
             <td><%=post.title%></td>
             <td><%=post.updated_at.strftime("%F")%></td>
             <td><%=post.view_count%></td>
           </tr>
+          <%end%>
         <% end %>
       </tbody>
     </table>
   </div>
+  <% @pagePosts = @posts.page(params[:page]).per(20)%>
   <div class="container pagination justify-content-center">
-    <%= paginate @posts,theme: 'twitter-bootstrap-4'%>
+    <%= paginate @pagePosts,theme: 'twitter-bootstrap-4'%>
   </div>
 </div>
 <script>

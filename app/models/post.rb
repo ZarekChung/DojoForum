@@ -11,4 +11,20 @@ class Post < ApplicationRecord
   def is_collected?(user)
     self.collected_users.include?(user)
   end
+
+  #def is_public?(user)
+    #self.privacy ==Privacy.first
+  #end
+
+  def is_friendOnly?(user)
+    self.user == user || self.user.is_firend?(user)
+  end
+
+  def is_private?(user)
+    self.user == user
+  end
+
+
+
+
 end

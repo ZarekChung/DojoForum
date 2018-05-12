@@ -7,10 +7,12 @@
             <div class="reply-title">
               <%=reply.post.title%></div>
             <%=text_area_tag 'post',reply.content,maxlength: 140,rows: 5, class:"form-control"%>
-            <div class="post-button text-right">
-              <button type="button" class="btn btn-secondary">Edit</button>
-              <%= link_to post_reply_path(reply.post,reply), method: :delete do%>
-              <i class="fas fa-times-circle fa-2x"></i>
+            <% if current_user == reply.post.user %>
+              <div class="post-button text-right">
+                <button type="button" class="btn btn-secondary">Edit</button>
+                <%= link_to post_reply_path(reply.post,reply), method: :delete do%>
+                <i class="fas fa-times-circle fa-2x"></i>
+              <%end%>
             <%end%>
           </div>
         </td>
