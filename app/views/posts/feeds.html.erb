@@ -1,0 +1,54 @@
+<div class="contailer">
+  <div class="count-info text-center">
+    <div class="feeds-items">
+      <h5>User</h5>
+      <%= text_field_tag 'User-count', User.all.count, class: 'text-center' ,maxlength: 5%>
+    </div>
+    <div class="feeds-items">
+      <h5>Post</h5>
+      <%= text_field_tag 'Post-count', Post.all.count,class: 'text-center', maxlength: 5%>
+    </div>
+    <div class="feeds-items">
+      <h5>Comment</h5>
+      <%= text_field_tag 'reply-count', Reply.all.count,class: 'text-center', maxlength: 5%>
+    </div>
+  </div>
+  <div class="container">
+    <div class="rank-info text-center">
+      <div class="row">
+        <div class="col-sm-6">
+          <h5>Chatterbox</h5>
+          <hr>
+          <%count = 0%>
+            <table class="table">
+              <% @usersTo10.each do |user|%>
+                <tbody >
+                  <tr>
+                    <th scope="row"><%= count+=1 %>.</th>
+                    <td colspan="2"><%= user.name %></td>
+                    <td><%= user.replies.count %></td>
+                  </tr>
+                </tbody>
+              <%end%>
+            </table>
+          </div>
+          <div class="col-sm-6">
+            <h5>Most Popular Post</h5>
+            <hr>
+            <%count =0 %>
+              <table class="table">
+                <% @postsTo10.each do |post|%>
+                  <tbody >
+                    <tr>
+                      <th scope="row"><%= count+=1 %>.</th>
+                      <td colspan="2"><%= post.title %></td>
+                      <td><%=post.updated_at.strftime("%F")%></td>
+                    </tr>
+                  </tbody>
+                <%end%>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

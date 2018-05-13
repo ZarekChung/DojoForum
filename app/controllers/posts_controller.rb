@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
   before_action :authenticate_user!, :except => [:index]
   #before_action :set_post, only: [:uncollect,:collect,:show,:edit,:update,:destroy]
-  before_action :set_post, :except=>[:index,:create,:new]
+  before_action :set_post, :except=>[:index,:create,:new,:feeds]
   def index
     @categories = Category.all
     @posts = Post.all.order(:id).page(params[:page]).per(20)
@@ -89,6 +89,11 @@ class PostsController < ApplicationController
    collects = Collect.where(post: @post, user: current_user)
    collects.destroy_all
    redirect_back(fallback_location: post_path(@post))
+  end
+
+  def feeds
+    @postsTo10 = Post.order(replies_count: :desc).limit(10)
+    @usersTo10 = User.order(replies_count: :desc).limit(10)
   end
 
   private

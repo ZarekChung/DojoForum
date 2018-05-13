@@ -77,6 +77,9 @@ namespace :dev do
      )
      end
    end
+   User.all.each do |user|
+     user.update_attributes(replies_count: user.replies.count)
+   end
       puts "fake_replies done"
   end
 
