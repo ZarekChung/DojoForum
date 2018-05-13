@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
+  before_create :generate_authentication_token
   mount_uploader :avatar, AvatarUploader
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
@@ -18,7 +19,6 @@ class User < ApplicationRecord
   has_many :inverse_friends, -> { where('is_confirm = ?', false) },class_name: "Friendship", foreign_key: "friend_id"
   has_many :friended, -> { where('is_confirm = ?', true) },through: :inverse_friends, source: :user
 
-  before_create :generate_authentication_token
 
   def generate_authentication_token
     self.authentication_token = Devise.friendly_token
