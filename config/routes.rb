@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     collection do
     get :feeds
     end
-    
+
   end
   resources :categories
   resources :friends, only: [:create, :destroy]
@@ -27,6 +27,11 @@ Rails.application.routes.draw do
       post :accept
       post :ignore
     end
+  end
+
+  namespace :admin do
+    resources :posts
+    root "posts#index"
   end
 
   namespace :api, defaults: {format: :json} do

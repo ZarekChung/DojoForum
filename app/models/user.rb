@@ -18,6 +18,10 @@ class User < ApplicationRecord
   has_many :inverse_friends, -> { where('is_confirm = ?', false) },class_name: "Friendship", foreign_key: "friend_id"
   has_many :friended, -> { where('is_confirm = ?', true) },through: :inverse_friends, source: :user
 
+  def admin?
+   self.role == "admin"
+  end
+
   def is_firend?(user)
    self.friend.include?(user)
  end

@@ -25,11 +25,13 @@
             <%= image_tag @post.photo, class:"img-responsive img-profile",width:'400px' %>
           </div>
           <div class="post-content"><%=@post.article%></div>
-          <% if current_user == @post.user %>
+          <% if current_user == @post.user || current_user.admin?%>
           <div class="post-button text-right">
+            <%if current_user == @post.user %>
             <%= link_to edit_post_path(@post) do %>
             <i class="fas fa-edit fa-2x"></i>
           <% end %>
+            <% end %>
           <%= link_to post_path(@post), method: :delete do%>
           <i class="fas fa-times-circle fa-2x"></i>
         <%end%>
