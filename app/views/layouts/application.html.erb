@@ -28,9 +28,18 @@
         </ul>
         <ul class="navbar-nav ml-auto">
           <% if current_user %>
+            <% if current_user.admin?%>
+            <li class="nav-item">
+              <span class="nav-link">Hi,<%= current_user.email %>(admin)</span>
+            </li>
+            <li class="nav-item">
+              <%= link_to '後台管理', admin_root_path, class: "nav-link" %>
+            </li>
+            <%else%>
             <li class="nav-item">
               <span class="nav-link">Hi,<%= current_user.email %></span>
             </li>
+            <%end%>
             <li class="nav-item">
               <%= link_to 'Profile', user_path(current_user), class: "nav-link" %>
             </li>
