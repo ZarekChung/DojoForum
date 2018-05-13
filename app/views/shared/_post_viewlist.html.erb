@@ -1,6 +1,6 @@
 <div class="container">
   <div class="form-group">
-    <table class="table tablesorter" id="postTable">
+    <table class="table tablesorter text-center" id="postTable">
       <thead>
         <tr>
           <th scope="col">Replies count</th>
@@ -15,10 +15,12 @@
         <% @categoryofposts.each do |categoryofpost| %>
         <% if check_privacty?(categoryofpost.post) %>
           <tr data-link="<%= post_path(categoryofpost.post) %>">
-            <td><%=categoryofpost.post.replies_count%></td>
+            <td>
+            <%= text_field_tag 'replies_count', categoryofpost.post.replies_count, class:'text-center',:size => 5 %>
+            </td>
             <td><%=categoryofpost.post.title%></td>
             <td><%=categoryofpost.post.updated_at.strftime("%F")%></td>
-            <td><%=categoryofpost.post.view_count%></td>
+            <td><i class="icon fas fa-eye"></i><%=categoryofpost.post.view_count%></td>
           </tr>
           <%end%>
         <% end %>
