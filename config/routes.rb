@@ -30,9 +30,9 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :posts
-    resources :categories  
-    root "posts#index"
+    resources :categories
+    resources :users, only:[:index,:update,:edit,:show]
+    root "categories#index"
   end
 
   namespace :api, defaults: {format: :json} do
