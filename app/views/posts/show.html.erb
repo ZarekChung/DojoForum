@@ -3,7 +3,7 @@
     <h1><%=@post.title%></h1>
     <div class="button-link text-right">
       <%= render partial: "shared/collect", locals: {post: @post} %>
-      <button type="button" class="btn btn-secondary">Comment</button>
+      <button type="button" class="btn btn-secondary" onclick='$("html, body").animate({ scrollTop: 99999 }, 600);'>Comment</button>
     </div>
   </div>
   <table class="table table-bordered">
@@ -11,9 +11,11 @@
       <tr>
         <td style="width:20%" class="text-center">
           <div class="user-pic">
-            <%= image_tag @post.user.avatar, class:"img-responsive img-profile",width:'150px'%>
-          </div>
-           <h5><%= @post.user.name%></h5>
+            <%= link_to user_path(@post.user) do %>
+             <%= image_tag @post.user.avatar, class:"img-responsive img-profile",width:'150px'%>
+             <h5 class="removestyle"><%= @post.user.name%></h5>
+           <% end %>
+           </div>
           <div>
             <%= link_to 'Edit' ,edit_user_path(@post.user) , class: "btn btn-secondary" if current_user==@post.user%>
             <%= render partial: "shared/friends", locals: {user:@post.user} if current_user!=@post.user %>
@@ -46,9 +48,11 @@
         <td style="width:20%" class="text-center">
           <div class="user-info">
             <div class="reply-pic">
-              <%= image_tag reply.user.avatar, class:"img-responsive img-profile",width:'150px' %>
+              <%= link_to user_path(reply.user) do %>
+                <%= image_tag reply.user.avatar, class:"img-responsive img-profile",width:'150px' %>
+               <h5 class="removestyle"><%= reply.user.name %></h5>
+             <% end %>
             </div>
-            <h5><%= reply.user.name %></h5>
             <div>
             <%= render partial: "shared/friends", locals: {user:reply.user} if current_user!=reply.user %>
             </div>
@@ -96,6 +100,7 @@
         //alert('請再點選一次');
       },
       success: function (data) {
+        $("html, body").animate({ scrollTop: 99999 }, 600);
         $('#reply-content').html(data);
       }
     });
@@ -132,4 +137,23 @@
       }
     });
   }
+
+  var strUrl = location.search;
+  if (strUrl.indexOf("?") != -1) {
+  $("html, body").animate({ scrollTop: 99999 }, 600);
+       var reply =strUrl.split("=") ;
+       //console.log(reply[1]);
+       var post_id = <%=@post.id%>;
+       $.ajax({
+         url: "/posts/" + post_id + "/replies/" + reply[1] + "/edit",
+         method: "GET",
+         dataType: "HTML",
+         error: function (xhr) {
+           alert(xhr);
+         },
+         success: function (data) {
+           $('#reply-content').html(data);
+         }
+       });
+    }
 </script>

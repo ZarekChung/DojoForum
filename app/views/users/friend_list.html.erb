@@ -6,9 +6,11 @@
     <%@firend_responses.each do |response_friend|%>
     <div class="user-info-firend">
       <div class="user-pic-firend">
-      <%= image_tag response_friend.friend.avatar,width:'100px' if response_friend.friend.avatar?%>
+        <%= link_to user_path(response_friend.friend) do %>
+           <%= image_tag response_friend.friend.avatar,width:'100px' if response_friend.friend.avatar?%>
+         <h5 class="removestyle text-center"><%= response_friend.friend.name%></h5>
+       <% end %>
       </div>
-      <h5><%= response_friend.friend.name%></h5>
     </div>
     <% end %>
     </div>
@@ -17,9 +19,11 @@
       <%@firend_replies.each do |replay_friend|%>
       <div class="user-info-firend" id="<%=replay_friend.user.id%>">
         <div class="user-pic-firend">
-        <%= image_tag replay_friend.user.avatar,width:'100px' if replay_friend.user.avatar?%>
+          <%= link_to user_path(replay_friend.user) do %>
+             <%= image_tag replay_friend.user.avatar,width:'100px' if replay_friend.user.avatar?%>
+           <h5 class="removestyle text-center"><%= replay_friend.user.name%></h5>
+         <% end %>
         </div>
-        <h5><%= replay_friend.user.name%></h5>
         <div>
         <button type="button" id="accept-btn" class="btn btn-info" onclick="accept(event)">Accept</button>
         <h1></h1>
@@ -34,9 +38,11 @@
       <%@friend_list.each do |friend|%>
       <div class="user-info-firend">
         <div class="user-pic-firend">
-        <%= image_tag friend.avatar,width:'100px' if friend.avatar?%>
+          <%= link_to user_path(friend) do %>
+            <%= image_tag friend.avatar,width:'100px' if friend.avatar?%>
+           <h5 class="removestyle text-center"><%= friend.name%></h5>
+         <% end %>
         </div>
-        <h5><%= friend.name%></h5>
       </div>
       <% end %>
     </div>
@@ -62,7 +68,6 @@ function accept(event) {
   });
 
 }
-
 function ignore(event) {
   var user_id = event.target.parentNode.parentNode.id;
   $.ajax({
@@ -80,6 +85,5 @@ function ignore(event) {
       window.location.reload();
     }
   });
-
 }
 </script>

@@ -29,12 +29,12 @@ class UsersController < ApplicationController
   end
 
   def replies
-    @replies = @user.replies.page(params[:page]).per(20)
+    @replies = @user.replies
     render :layout => false
   end
 
   def collects
-    @collects = @user.collected_posts.page(params[:page]).per(20)
+    @collects = @user.collected_posts
     render :layout => false
   end
 

@@ -69,7 +69,7 @@ namespace :dev do
   task fake_replies: :environment do
     Reply.destroy_all
     Post.all.each do |tweet|
-     25.times do |i|
+     3.times do |i|
      Reply.create!(
        content: FFaker::Lorem.sentence[0..140],
        user: User.all.sample,

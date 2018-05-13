@@ -3,13 +3,13 @@
     <tbody>
       <% @replies.each do |reply|%>
         <tr>
-          <td>
-            <div class="reply-title">
+          <td id="<%=reply.post.id%>">
+            <div class="reply-title" >
               <%=reply.post.title%></div>
-            <%=text_area_tag 'post',reply.content,maxlength: 140,rows: 5, class:"form-control"%>
-            <% if current_user == reply.post.user %>
-              <div class="post-button text-right">
-                <button type="button" class="btn btn-secondary">Edit</button>
+            <%=text_area_tag 'post',reply.content,maxlength: 140,rows: 5, class:"form-control",disabled: true%>
+            <% if current_user == reply.user %>
+              <div class="post-button text-right" id="<%=reply.id%>">
+                  <i class="fas fa-edit fa-2x" onclick="editReplay(event)"></i>
                 <%= link_to post_reply_path(reply.post,reply), method: :delete do%>
                 <i class="fas fa-times-circle fa-2x"></i>
               <%end%>
@@ -22,3 +22,20 @@
   </tbody>
 </table>
 </div>
+<script>
+function editReplay(event) {
+  var id = event.target.parentNode.id;
+  var post_id = event.target.parentNode.parentNode.id;
+  $.ajax({
+    url: "/posts/" + post_id + "/replies/" + id + "/edit",
+    method: "GET",
+    dataType: "HTML",
+    error: function (xhr) {
+      alert(xhr);
+    },
+    success: function (data) {
+      window.location="/posts/" + post_id +"?reply_id="+id;
+    }
+  });
+}
+</script>
