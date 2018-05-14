@@ -13,19 +13,15 @@ class Post < ApplicationRecord
     self.collected_users.include?(user)
   end
 
-  #def is_public?(user)
-    #self.privacy ==Privacy.first
-  #end
-
-  def is_friendOnly?(user)
-    self.user == user || self.user.is_firend?(user)
+  def self.filter_by_reviewed_status(user)
+  if  user.nil?
+      self.where(privacy_id:1)
+  else
+    if user.friendships.where(:friend_id =>self.select(:user_id))
+      self.where(:user_id=>user.friendships.select(:friend_id),privacy_id:[1,2]).or(self.where(user_id:user.id)).or(  self.where(privacy_id:1))
+    else
+      self.where(privacy_id:1).or(self.where(user_id:user.id))
+    end
   end
-
-  def is_private?(user)
-    self.user == user
-  end
-
-
-
-
+end
 end

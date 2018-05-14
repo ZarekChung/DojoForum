@@ -10,7 +10,6 @@
   <tbody>
     <% posts.each do |post| %>
       <tr>
-      <% if check_privacty?(post) %>
         <td data-link="<%= post_path(post) %>"><%=post.title%></td>
         <td data-link="<%= post_path(post) %>">
           <% if post.is_draft? %>
@@ -31,7 +30,6 @@
           <%end%>
         <%end%>
       </td>
-      <%end%>
     </tr>
   <% end %>
   </tbody>

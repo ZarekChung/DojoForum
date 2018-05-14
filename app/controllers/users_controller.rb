@@ -19,7 +19,7 @@ class UsersController < ApplicationController
   end
 
   def posts
-    @posts = @user.posts.where(is_draft: false).page(params[:page]).per(20)
+    @posts = @user.posts.filter_by_reviewed_status(current_user).where(is_draft: false).page(params[:page]).per(20)
     render :layout => false
   end
 

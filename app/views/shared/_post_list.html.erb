@@ -13,9 +13,6 @@
       </thead>
       <tbody>
         <% @posts.each do |post| %>
-        <% if check_privacty?(post) %>
-        <% @pagePosts = Array.new %>
-        <% @pagePosts.push(post) %>
             <tr data-link="<%= post_path(post) %>">
             <td>
               <%= text_field_tag 'replies_count', post.replies_count, class: 'text-center', :size => 5%>
@@ -24,14 +21,12 @@
             <td><%=post.updated_at.strftime("%F")%></td>
             <td><i class="icon fas fa-eye"></i><%=post.view_count%></td>
           </tr>
-          <%end%>
         <% end %>
       </tbody>
     </table>
   </div>
-  <% @pagePosts = @posts.page(params[:page]).per(20)%>
   <div class="container pagination justify-content-center">
-    <%= paginate @pagePosts,theme: 'twitter-bootstrap-4'%>
+    <%= paginate @posts,theme: 'twitter-bootstrap-4'%>
   </div>
 </div>
 <script>

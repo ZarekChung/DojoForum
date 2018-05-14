@@ -1,10 +1,9 @@
 class PostsController < ApplicationController
   before_action :authenticate_user!, :except => [:index]
-  #before_action :set_post, only: [:uncollect,:collect,:show,:edit,:update,:destroy]
   before_action :set_post, :except=>[:index,:create,:new,:feeds]
   def index
     @categories = Category.all
-    @posts = Post.all.order(:id).page(params[:page]).per(20)
+    @posts = Post.filter_by_reviewed_status(current_user).where(is_draft:false).order(:id).page(params[:page]).per(20)
   end
 
   def show
@@ -22,8 +21,8 @@ class PostsController < ApplicationController
     @post = Post.new(post_params)
     categories = params[:post][:categories]
     @post.user = current_user
-    @post.is_draft = false
     if @post.save
+      @post.update_attributes(is_draft: false) if set_publishing?
     #flash 會留到下一個request
     Category.all.each do |category|
       if categories.to_a.include?(category.id.to_s)
@@ -98,10 +97,16 @@ class PostsController < ApplicationController
 
   private
   def set_publishing?
-    params[:commit] == "Update Post"
+    params[:commit] == "Update Post" || params[:commit] == "Create Post"
   end
+
   def set_post
-    @post = Post.find(params[:id])
+    begin
+      @post = Post.filter_by_reviewed_status(current_user).find(params[:id])
+    rescue
+      flash[:notice] ="post not found"
+      redirect_to root_path
+    end
   end
 
   def post_params
