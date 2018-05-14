@@ -13,6 +13,7 @@
           <div class="intro"><%=@user.intro%></div>
           <div class="text-right">
             <%= link_to 'Edit' ,edit_user_path(@user) , class: "btn btn-secondary" if current_user==@user%>
+            <%= render partial: "shared/friends", locals: {user:@user} if current_user!=@user %>
           </div>
         </div>
       </div>
@@ -56,8 +57,14 @@
 </div>
 <script>
   $(document).ready(function () {
-    $('#my-posts').toggleClass('active');
-    $('#user-items li a:first').click();
+    var strUrl = location.search;
+    if (strUrl.indexOf("?") != -1) {
+      $('#my-drafts').toggleClass('active');
+      $('#user-items li:nth-child(3) a').click();
+    }else{
+      $('#my-posts').toggleClass('active');
+      $('#user-items li a:first').click();
+    }
   });
 
   function showUserPosts(event) {
@@ -119,7 +126,7 @@
         //alert('請再點選一次');
       },
       success: function (data) {
-        console.log("ok")
+        //console.log("ok")
         $('#my-collects').html(data);
       }
     });

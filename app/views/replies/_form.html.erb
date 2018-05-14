@@ -1,7 +1,7 @@
 <div class="container">
   <%= form_for [post, reply] do |f| %>
   <div class="form-group">
-    <%= f.text_area :content, placeholder: "comments",maxlength: 140,rows: 5, class:"form-control"%>
+    <%= f.text_area :content, placeholder: "comments",maxlength: 140,rows: 8, class:"form-control"%>
   </div>
   <%= f.submit class:"btn btn-secondary"%>
 <% end %>

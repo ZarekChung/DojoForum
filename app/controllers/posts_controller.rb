@@ -33,8 +33,13 @@ class PostsController < ApplicationController
       @post.category_of_posts.create!(post: @post, category_id: category.id,is_checked:false)
       end
     end
+
     flash[:notice] = "post was scuccessfully created"
-    redirect_to posts_path
+      if set_publishing?
+        redirect_to posts_path
+      else
+        redirect_to "/users/#{current_user.id}?draft"
+      end
     else
     #flash.now 只存在現在這個request
     flash.now[:alert] = "post was failed to create"
@@ -64,7 +69,11 @@ class PostsController < ApplicationController
     if @post.update_attributes(post_params)
       @post.update_attributes(is_draft: false) if set_publishing?
       flash[:notice] = "post was scuccessfully updated"
-      redirect_to post_path(@post)
+      if set_publishing?
+        redirect_to post_path(@post)
+      else
+        redirect_to "/users/#{current_user.id}?draft"
+      end
     else
       flash.now[:alert] ="post was failed to update"
       render :edit
