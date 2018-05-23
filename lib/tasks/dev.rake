@@ -80,6 +80,9 @@ namespace :dev do
    User.all.each do |user|
      user.update_attributes(replies_count: user.replies.count)
    end
+   Post.all.each do |post|
+     post.update_attributes(replies_count: post.replies.count)
+   end
       puts "fake_replies done"
   end
 

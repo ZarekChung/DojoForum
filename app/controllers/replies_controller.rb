@@ -5,6 +5,7 @@ class RepliesController < ApplicationController
     @reply = @post.replies.build(reply_params)
     @reply.user = current_user
     @reply.save!
+    @post.update_attributes(replies_count: @post.replies.count)
     current_user.update_attributes(replies_count: current_user.replies.count)
     redirect_to post_path(@post)
   end
@@ -12,6 +13,8 @@ class RepliesController < ApplicationController
   def destroy
     #if current_user.admin?
       @reply.destroy
+      @post.update_attributes(replies_count: @post.replies.count)
+      current_user.update_attributes(replies_count: current_user.replies.count)
       redirect_to post_path(@post)
     #end
   end
