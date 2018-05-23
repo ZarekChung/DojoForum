@@ -23,16 +23,7 @@
         </thead>
         <tbody>
           <% @users.each do |user| %>
-            <%= form_for [:admin, user] do |f| %>
-            <tr>
-              <td scope="row"><%= user.name%></td>
-              <td><%= user.email %></td>
-              <td>
-                <%= f.select :role, [['Admin', 'admin'], ['Normal', 'normal']], :prompt => 'Select' %>
-                <%= f.submit class: "btn btn-secondary"%>
-              </td>
-            </tr>
-          <% end %>
+            <%= render partial: "form", locals: {user:user} %>
         <% end %>
       </tbody>
     </table>
