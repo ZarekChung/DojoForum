@@ -18,3 +18,4 @@
 //= require popper
 //= require bootstrap-sprockets
 //= require jquery-tablesorter
+//= require jquery-tablesorter/addons/pager/jquery.tablesorter.pager

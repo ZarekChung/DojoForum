@@ -15,7 +15,9 @@
         <% @posts.each do |post| %>
             <tr data-link="<%= post_path(post) %>">
             <td>
-              <%= text_field_tag 'replies_count', post.replies_count, class: 'text-center', :size => 5%>
+              <%#= text_field_tag 'replies_count', post.replies_count, class: 'text-center', :size => 5%>
+<div class="replies"><%= post.replies_count%></div>
+
             </td>
             <td><%=post.title%></td>
             <td><%=post.updated_at.strftime("%F")%></td>
@@ -25,13 +27,19 @@
       </tbody>
     </table>
   </div>
-  <div class="container pagination justify-content-center">
+  <div id="pager" class="container pagination justify-content-center">
     <%= paginate @posts,theme: 'twitter-bootstrap-4'%>
   </div>
 </div>
 <script>
+var $pager = $('#pager');
   $(function () {
-    $("#postTable").tablesorter();
+    $("#postTable").tablesorter().tablesorterPager({
+      // target the pager markup - see the HTML block below
+      container: $pager,
+      size: 20,
+      output: 'showing: {startRow} to {endRow} ({filteredRows})'
+    });
   });
 
   $("tr[data-link]").click(function() {
