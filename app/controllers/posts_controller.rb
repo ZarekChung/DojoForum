@@ -3,7 +3,8 @@ class PostsController < ApplicationController
   before_action :set_post, :except=>[:index,:create,:new,:feeds]
   def index
     @categories = Category.all
-    @posts = Post.filter_by_reviewed_status(current_user).where(is_draft:false).order(:id).page(params[:page]).per(20)
+    #@posts = Post.filter_by_reviewed_status(current_user).where(is_draft:false).order("id").page(params[:page]).per(20)
+    @posts = Post.all.order("id").page(params[:page]).per(20)
   end
 
   def show

@@ -39,7 +39,7 @@ gem 'jquery-rails'
 gem 'ffaker'
 gem 'kaminari'
 gem 'bootstrap4-kaminari-views'
-gem 'jquery-tablesorter'
+gem 'jquery-tablesorter','~> 1.25.2'
 gem 'devise'
 gem 'font-awesome-sass'
 

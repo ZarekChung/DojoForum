@@ -1,6 +1,6 @@
 namespace :dev do
   task fake_user: :environment do
-    User.destroy_all
+    #User.destroy_all
 
     20.times do |i|
       name = FFaker::Name::first_name_female
@@ -46,7 +46,8 @@ namespace :dev do
       Category.all.each do |c|
         categoryOfPost = CategoryOfPost.create!(
          post: post,
-         category: c
+         category: c,
+         is_checked: true
         )
       end
     end

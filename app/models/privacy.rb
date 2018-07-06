@@ -1,3 +1,3 @@
 class Privacy < ApplicationRecord
-  has_many :posts, dependent: :restrict_with_error
+  has_many :posts, dependent: :destroy
 end

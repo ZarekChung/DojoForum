@@ -32,14 +32,10 @@
   </div>
 </div>
 <script>
-var $pager = $('#pager');
+var pager = $('.pagination');
   $(function () {
-    $("#postTable").tablesorter().tablesorterPager({
-      // target the pager markup - see the HTML block below
-      container: $pager,
-      size: 20,
-      output: 'showing: {startRow} to {endRow} ({filteredRows})'
-    });
+  //  $('#postTable').dataTable();
+    $("#postTable").tablesorter();//.tablesorterPager(pager);
   });
 
   $("tr[data-link]").click(function() {
